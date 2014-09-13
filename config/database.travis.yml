@@ -1,0 +1,8 @@
+test: &test
+  adapter: postgresql
+  encoding: utf8
+  database: file_management_test
+  username: postgres
+
+cucumber:
+  <<: *test
