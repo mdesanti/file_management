@@ -56,11 +56,8 @@ test: &test
 production:
   adapter: postgresql
   encoding: unicode
-  database: file_management_production
   pool: 5
-  username: file_management
-  password: file_management
-  host: localhost
+  url: <%= ENV['DATABASE_URL'] %>
 
 cucumber:
   <<: *test
