@@ -1,11 +1,18 @@
 ActiveAdmin.setup do |config|
 
+  config.namespace :admin do |admin|
+
+    # This block will edit the default menu
+    admin.build_menu do |menu|
+      menu.add :label => "Tablas", :priority => 1
+    end
+  end
   # == Site Title
   #
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "File Management"
+  config.site_title = "SUBTERRANEA FILMS S.A."
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -140,6 +147,9 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_filter :do_something_awesome
+  config.before_filter do
+    I18n.locale = 'es'
+  end
 
 
   # == Setting a Favicon
