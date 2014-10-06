@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002190139) do
+ActiveRecord::Schema.define(version: 20141003185623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,24 @@ ActiveRecord::Schema.define(version: 20141002190139) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "backups", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "barrios", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ciudads", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "clients", force: true do |t|
     t.string   "name"
     t.text     "description"
@@ -41,9 +59,45 @@ ActiveRecord::Schema.define(version: 20141002190139) do
     t.datetime "updated_at"
   end
 
+  create_table "discos", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "equipos", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "perreles", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "prods", force: true do |t|
     t.text     "descri"
     t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ruta", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tagtemas", force: true do |t|
+    t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tipos", force: true do |t|
+    t.text     "descri"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

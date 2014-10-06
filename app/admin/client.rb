@@ -2,7 +2,7 @@ ActiveAdmin.register Client do
   permit_params :name, :description
 
   menu :parent => "Tablas",:label => "Clientes"   
-  
+  config.sort_order = "name_asc"
   breadcrumb do
       params[:action]=='index' ? [] : []
   end
@@ -38,8 +38,8 @@ ActiveAdmin.register Client do
     
   form do |f|
       f.inputs "Detalles" do
-       f.input :name, :label => 'Razón Social'
-       f.input :description, :label => 'Observaciones'
+      f.input :name, :label => 'Razón Social'
+      f.input :description, :label => 'Observaciones'
     end
     f.actions
   end
