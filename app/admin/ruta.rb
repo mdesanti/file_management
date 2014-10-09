@@ -37,6 +37,11 @@ ActiveAdmin.register Ruta do
       
     end
     f.actions
+    
+    # f.actions do
+    #    f.action :submit, label: 'Guardar'
+    #    f.action :cancel
+    # end
   end
     
   show :title => 'Ruta' do
