@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141003185623) do
+ActiveRecord::Schema.define(version: 20141009230806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,41 @@ ActiveRecord::Schema.define(version: 20141003185623) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "material_crudo_perrele", force: true do |t|
+    t.integer "material_crudo_id"
+    t.integer "perrele_id"
+  end
+
+  add_index "material_crudo_perrele", ["material_crudo_id"], name: "index_material_crudo_perrele_on_material_crudo_id", using: :btree
+  add_index "material_crudo_perrele", ["perrele_id"], name: "index_material_crudo_perrele_on_perrele_id", using: :btree
+
+  create_table "material_crudos", force: true do |t|
+    t.integer  "client_id"
+    t.integer  "prod_id"
+    t.text     "titulo"
+    t.integer  "tipo_id"
+    t.text     "descri"
+    t.integer  "ciudad_id"
+    t.integer  "barrio_id"
+    t.date     "fecha_desde"
+    t.date     "fecha_hasta"
+    t.text     "discurso"
+    t.integer  "equipo_id"
+    t.integer  "disco_id"
+    t.integer  "ruta_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "material_crudos", ["barrio_id"], name: "index_material_crudos_on_barrio_id", using: :btree
+  add_index "material_crudos", ["ciudad_id"], name: "index_material_crudos_on_ciudad_id", using: :btree
+  add_index "material_crudos", ["client_id"], name: "index_material_crudos_on_client_id", using: :btree
+  add_index "material_crudos", ["disco_id"], name: "index_material_crudos_on_disco_id", using: :btree
+  add_index "material_crudos", ["equipo_id"], name: "index_material_crudos_on_equipo_id", using: :btree
+  add_index "material_crudos", ["prod_id"], name: "index_material_crudos_on_prod_id", using: :btree
+  add_index "material_crudos", ["ruta_id"], name: "index_material_crudos_on_ruta_id", using: :btree
+  add_index "material_crudos", ["tipo_id"], name: "index_material_crudos_on_tipo_id", using: :btree
 
   create_table "perreles", force: true do |t|
     t.text     "descri"
