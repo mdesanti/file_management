@@ -21,7 +21,7 @@ ActiveAdmin.register MaterialCrudo do
       f.input :client_id, label: 'Cliente', as: :select, collection: Client.all.map{|u| ["#{u.name}", u.id]}, input_html: {
         onchange: remote_request(:post, :change_prod, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
       }
-      f.input :prod_id, label: 'Producto', as: :select, collection: Client.find_by_id(material_crudo.client_id).prods.map{|u| ["#{u.descri}", u.id]}
+      f.input :prod_id, label: 'Producto', as: :select, collection: material_crudo.client.present? ? material_crudo.client.prods.map{|u| ["#{u.descri}", u.id]} : []
       f.input :titulo, as: :string
       f.input :tipo_id, label: 'Tipo', as: :select, collection: Tipo.all.map{|u| ["#{u.descri}", u.id]}
       f.input :descri
