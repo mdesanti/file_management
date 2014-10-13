@@ -19,7 +19,7 @@ ActiveAdmin.register MaterialCrudo do
   form do |f|
     f.inputs "Detalles" do
       f.input :client_id, label: 'Cliente', as: :select, collection: Client.all.map{|u| ["#{u.name}", u.id]}, input_html: {
-        onchange: remote_request(:post, :change_prod, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
+        onchange: remote_request(:post, change_prod_path, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
       }
       f.input :prod_id, label: 'Producto', as: :select, collection: material_crudo.client.present? ? material_crudo.client.prods.map{|u| ["#{u.descri}", u.id]} : []
       f.input :titulo, as: :string
