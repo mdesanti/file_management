@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009230806) do
+ActiveRecord::Schema.define(version: 20141015123627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,14 @@ ActiveRecord::Schema.define(version: 20141009230806) do
 
   add_index "material_crudo_perrele", ["material_crudo_id"], name: "index_material_crudo_perrele_on_material_crudo_id", using: :btree
   add_index "material_crudo_perrele", ["perrele_id"], name: "index_material_crudo_perrele_on_perrele_id", using: :btree
+
+  create_table "material_crudo_tagtemas", force: true do |t|
+    t.integer "material_crudo_id"
+    t.integer "tagtemas_id"
+  end
+
+  add_index "material_crudo_tagtemas", ["material_crudo_id"], name: "index_material_crudo_tagtemas_on_material_crudo_id", using: :btree
+  add_index "material_crudo_tagtemas", ["tagtemas_id"], name: "index_material_crudo_tagtemas_on_tagtemas_id", using: :btree
 
   create_table "material_crudos", force: true do |t|
     t.integer  "client_id"

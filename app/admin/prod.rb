@@ -36,7 +36,7 @@ ActiveAdmin.register Prod do
     f.actions
   end  
   
-    show :title => 'Consulta de Productos' do
+  show :title => 'Consulta de Productos' do
     #panel 'Detalles' do
       attributes_table do
         row 'Razón Social', :id do |t|

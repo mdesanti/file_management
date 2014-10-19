@@ -33,7 +33,7 @@ ActiveAdmin.register Backup do
     
   form do |f|
     f.inputs "Detalles" do
-      f.input :descri, :label => 'Descripción'
+    f.input :descri, :label => 'Descripción'
       
     end
     f.actions

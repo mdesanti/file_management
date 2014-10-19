@@ -1,11 +1,48 @@
 ActiveAdmin.register MaterialCrudo do
-
+     
   permit_params :client_id, :prod_id, :titulo, :descri,
                 :ciudad_id, :barrio_id, :fecha_desde,
                 :fecha_hasta, :discurso, :equipo_id,
-                :disco_id, :ruta_id, :tipo_id, perrele_ids: []
+                :disco_id, :ruta_id, :tipo_id, perrele_ids: [], tagtemas_ids: []
   
+  breadcrumb do
+    params[:action]=='index' ? [] : []
+  end
+  config.sort_order = "clients.name_asc"
+  action_item :only => :show do
+    link_to "Volver", admin_material_crudos_path
+  end
+    
+  index :title => 'Material Crudo' do |mc|
+   selectable_column
+    column 'Cliente', :client_id, :sortable => 'clients.name' do |t| 
+     t.client.name 
+   end
+   column 'Producto', :prod_id, :sortable => 'prods.descri' do |t|
+     t.prod.descri unless t.prod.blank?
+   end  
+   column 'Título', :titulo
+  # column 'Tipo', :tipo_id do |t|
+  #   t.tipo.descri unless t.tipo.blank?
+  # end  
+   column 'Descripción', :descri  unless blank?
+   actions
+  end
+    
+  filter :client, :label => 'Razón Social', as: :select, collection: Client.order(:name)
+  #filter :prod, :label => 'Producto', as: :select, collection: Prod.all.collect {|o| [o.descri, o.id]}
+  filter :prod_descri, :label => 'Producto', as: :string
+    
   controller do
+    
+    #def edit
+    #  @page_title= 'Sandra'
+    #end
+    
+    def scoped_collection
+     MaterialCrudo.includes(:client, :prod)
+    end
+    
     def change_prod
       if params[:client_id].empty?
         @prods = []
@@ -13,30 +50,81 @@ ActiveAdmin.register MaterialCrudo do
         @prods = Client.find_by_id(params[:client_id]).prods
       end
       render text: view_context.options_from_collection_for_select(@prods, :id, :descri)
-    end
+    end  
+    
   end
 
   form do |f|
     f.inputs "Detalles" do
       f.input :client_id, label: 'Cliente', as: :select, collection: Client.all.map{|u| ["#{u.name}", u.id]}, input_html: {
-        onchange: remote_request(:post, change_prod_path, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
+          onchange: remote_request(:post, change_prod_path, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
       }
       f.input :prod_id, label: 'Producto', as: :select, collection: material_crudo.client.present? ? material_crudo.client.prods.map{|u| ["#{u.descri}", u.id]} : []
       f.input :titulo, as: :string
       f.input :tipo_id, label: 'Tipo', as: :select, collection: Tipo.all.map{|u| ["#{u.descri}", u.id]}
-      f.input :descri
+      f.input :descri, as: :string
       f.input :ciudad_id, label: 'Ciudad', as: :select, collection: Ciudad.all.map{|u| [u.descri, u.id]}
       f.input :barrio_id, label: 'Barrio', as: :select, collection: Barrio.all.map{|u| [u.descri, u.id]}
-      f.input :fecha_desde
-      f.input :fecha_hasta
+      f.input :fecha_desde, as: :date_picker, :input_html => { :value => Date.today}
+      f.input :fecha_hasta, as: :date_picker
       f.input :discurso
       f.input :equipo_id, label: 'Equipo', as: :select, collection: Equipo.all.map{|u| ["#{u.descri}", u.id]}
       f.input :disco_id, label: 'Disco', as: :select, collection: Disco.all.map{|u| ["#{u.descri}", u.id]}
       f.input :ruta_id, label: 'Ruta', as: :select, collection: Ruta.all.map{|u| ["#{u.descri}", u.id]}
+      f.input :tagtemas, as: :select, input_html: { class: 'chosen' }, collection: Tagtemas.all.map{|u| ["#{u.descri}", u.id]}
       f.input :perreles, as: :select, input_html: { class: 'chosen' }, collection: Perrele.all.map{|u| ["#{u.descri}", u.id]}
     end
     f.actions
   end
-
+ 
+  show :title => 'Consulta de Material Crudo' do |mc|
+    attributes_table do
+      row 'Cliente', :id do |t|
+        t.client.name
+      end
+      row 'Producto', :id do |t|
+        t.prod.descri unless t.prod.blank?
+      end
+      row 'Título' do
+        material_crudo.titulo
+      end 
+      row 'Tipo', :id do |t|
+        t.tipo.descri unless t.tipo.blank?
+      end
+      row 'Descripción' do 
+        material_crudo.descri
+      end
+      row 'Ciudad', :id do |t|
+        t.ciudad.descri unless t.ciudad.blank?
+      end 
+      row 'Barrio', :id do |t|
+        t.barrio.descri unless t.barrio.blank?
+      end 
+      row 'Desde' do
+        material_crudo.fecha_desde.strftime('%d/%m/%Y')
+      end   
+      row 'Hasta' do
+        material_crudo.fecha_hasta.strftime('%d/%m/%Y') unless material_crudo.fecha_hasta.blank?
+      end   
+      row 'Discurso', :id do |t|
+        material_crudo_discurso unless material_crudo.discurso.blank?
+      end
+      row 'Equipo', :id do |t|
+        t.equipo.descri unless t.equipo.blank?
+      end
+      row 'Disco', :id do |t|
+        t.disco.descri unless t.disco.blank?
+      end
+      row 'Ruta', :id do |t|
+        t.ruta.descri unless t.ruta.blank?
+      end
+      row 'Tag Temas' do 
+          mc.tagtemas.map(&:descri).join("<br />").html_safe
+      end  
+      row 'Personas Relevantes' do 
+        mc.perreles.map(&:descri).join("<br />").html_safe
+      end   
+    end
+  end  
 
 end

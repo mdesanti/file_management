@@ -11,12 +11,6 @@ ActiveAdmin.register Equipo do
       link_to "Volver", admin_equipos_path
   end
     
- # sidebar 'Productos de este cliente', :only => :show do
- #     table_for Prod.joins(:client).where(:client_id=> Client.id) do |t|
- #         t.column("Descripción") { |prod| prod.descri }
- #   end
- # end  
-    
   index :title => 'Equipo' do
     selectable_column
     column 'Descripción', :descri

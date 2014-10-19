@@ -10,4 +10,7 @@ class MaterialCrudo < ActiveRecord::Base
   
   has_and_belongs_to_many :perreles, join_table: 'material_crudo_perrele'
   accepts_nested_attributes_for :perreles
+    
+  has_and_belongs_to_many :tagtemas, join_table: 'material_crudo_tagtemas'
+  accepts_nested_attributes_for :tagtemas
 end
