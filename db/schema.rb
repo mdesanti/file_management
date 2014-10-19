@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015123627) do
+ActiveRecord::Schema.define(version: 20141019141940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,23 +71,23 @@ ActiveRecord::Schema.define(version: 20141015123627) do
     t.datetime "updated_at"
   end
 
-  create_table "material_crudo_perrele", force: true do |t|
-    t.integer "material_crudo_id"
+  create_table "material_perrele", force: true do |t|
+    t.integer "material_id"
     t.integer "perrele_id"
   end
 
-  add_index "material_crudo_perrele", ["material_crudo_id"], name: "index_material_crudo_perrele_on_material_crudo_id", using: :btree
-  add_index "material_crudo_perrele", ["perrele_id"], name: "index_material_crudo_perrele_on_perrele_id", using: :btree
+  add_index "material_perrele", ["material_id"], name: "index_material_perrele_on_material_id", using: :btree
+  add_index "material_perrele", ["perrele_id"], name: "index_material_perrele_on_perrele_id", using: :btree
 
-  create_table "material_crudo_tagtemas", force: true do |t|
-    t.integer "material_crudo_id"
+  create_table "material_tagtemas", force: true do |t|
+    t.integer "material_id"
     t.integer "tagtemas_id"
   end
 
-  add_index "material_crudo_tagtemas", ["material_crudo_id"], name: "index_material_crudo_tagtemas_on_material_crudo_id", using: :btree
-  add_index "material_crudo_tagtemas", ["tagtemas_id"], name: "index_material_crudo_tagtemas_on_tagtemas_id", using: :btree
+  add_index "material_tagtemas", ["material_id"], name: "index_material_tagtemas_on_material_id", using: :btree
+  add_index "material_tagtemas", ["tagtemas_id"], name: "index_material_tagtemas_on_tagtemas_id", using: :btree
 
-  create_table "material_crudos", force: true do |t|
+  create_table "materials", force: true do |t|
     t.integer  "client_id"
     t.integer  "prod_id"
     t.text     "titulo"
@@ -98,21 +98,16 @@ ActiveRecord::Schema.define(version: 20141015123627) do
     t.date     "fecha_desde"
     t.date     "fecha_hasta"
     t.text     "discurso"
-    t.integer  "equipo_id"
-    t.integer  "disco_id"
-    t.integer  "ruta_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
-  add_index "material_crudos", ["barrio_id"], name: "index_material_crudos_on_barrio_id", using: :btree
-  add_index "material_crudos", ["ciudad_id"], name: "index_material_crudos_on_ciudad_id", using: :btree
-  add_index "material_crudos", ["client_id"], name: "index_material_crudos_on_client_id", using: :btree
-  add_index "material_crudos", ["disco_id"], name: "index_material_crudos_on_disco_id", using: :btree
-  add_index "material_crudos", ["equipo_id"], name: "index_material_crudos_on_equipo_id", using: :btree
-  add_index "material_crudos", ["prod_id"], name: "index_material_crudos_on_prod_id", using: :btree
-  add_index "material_crudos", ["ruta_id"], name: "index_material_crudos_on_ruta_id", using: :btree
-  add_index "material_crudos", ["tipo_id"], name: "index_material_crudos_on_tipo_id", using: :btree
+  add_index "materials", ["barrio_id"], name: "index_materials_on_barrio_id", using: :btree
+  add_index "materials", ["ciudad_id"], name: "index_materials_on_ciudad_id", using: :btree
+  add_index "materials", ["client_id"], name: "index_materials_on_client_id", using: :btree
+  add_index "materials", ["prod_id"], name: "index_materials_on_prod_id", using: :btree
+  add_index "materials", ["tipo_id"], name: "index_materials_on_tipo_id", using: :btree
 
   create_table "perreles", force: true do |t|
     t.text     "descri"
@@ -129,6 +124,15 @@ ActiveRecord::Schema.define(version: 20141015123627) do
 
   create_table "ruta", force: true do |t|
     t.text     "descri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "storage_infos", force: true do |t|
+    t.integer  "equipo_id"
+    t.integer  "disco_id"
+    t.integer  "ruta_id"
+    t.integer  "material_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

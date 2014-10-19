@@ -1,9 +1,8 @@
-ActiveAdmin.register MaterialCrudo do
+ActiveAdmin.register ProyectoTerminado do
      
   permit_params :client_id, :prod_id, :titulo, :descri,
                 :ciudad_id, :barrio_id, :fecha_desde,
-                :fecha_hasta, :discurso, :tipo_id, perrele_ids: [], tagtemas_ids: [], storage_info_attributes: [:equipo_id,
-                :disco_id, :ruta_id]
+                :fecha_hasta, :discurso, :tipo_id, perrele_ids: [], tagtemas_ids: [], storage_infos_attributes: [:equipo_id, :disco_id, :ruta_id]
   
   breadcrumb do
     params[:action]=='index' ? [] : []
@@ -38,7 +37,7 @@ ActiveAdmin.register MaterialCrudo do
     #end
     
     def scoped_collection
-     MaterialCrudo.includes(:client, :prod)
+      ProyectoTerminado.includes(:client, :prod)
     end
     
     def change_prod
@@ -55,9 +54,9 @@ ActiveAdmin.register MaterialCrudo do
   form do |f|
     f.inputs "Detalles" do
       f.input :client_id, label: 'Cliente', as: :select, collection: Client.all.map{|u| ["#{u.name}", u.id]}, input_html: {
-          onchange: remote_request(:post, change_prod_path, {client_id: "$('#material_crudo_client_id').val()"}, :material_crudo_prod_id)
+        onchange: remote_request(:post, change_prod_path, {client_id: "$('#proyecto_terminado_client_id').val()"}, :proyecto_terminado_prod_id)
       }
-      f.input :prod_id, label: 'Producto', as: :select, collection: material_crudo.client.present? ? material_crudo.client.prods.map{|u| ["#{u.descri}", u.id]} : []
+      f.input :prod_id, label: 'Producto', as: :select, collection: proyecto_terminado.client.present? ? proyecto_terminado.client.prods.map{|u| ["#{u.descri}", u.id]} : []
       f.input :titulo, as: :string
       f.input :tipo_id, label: 'Tipo', as: :select, collection: Tipo.all.map{|u| ["#{u.descri}", u.id]}
       f.input :descri, as: :string
@@ -66,7 +65,7 @@ ActiveAdmin.register MaterialCrudo do
       f.input :fecha_desde, as: :date_picker, :input_html => { :value => Date.today}
       f.input :fecha_hasta, as: :date_picker
       f.input :discurso
-      f.inputs name: "Información de almacenamiento", for: [:storage_info, f.object.storage_info || StorageInfo.new] do |sf|
+      f.has_many :storage_infos do |sf|
         sf.input :equipo_id, label: 'Equipo', as: :select, collection: Equipo.all.map{|u| ["#{u.descri}", u.id]}
         sf.input :disco_id, label: 'Disco', as: :select, collection: Disco.all.map{|u| ["#{u.descri}", u.id]}
         sf.input :ruta_id, label: 'Ruta', as: :select, collection: Ruta.all.map{|u| ["#{u.descri}", u.id]}
@@ -77,7 +76,7 @@ ActiveAdmin.register MaterialCrudo do
     f.actions
   end
  
-  show :title => 'Consulta de Material Crudo' do |mc|
+  show :title => 'Consulta de Proyecto Terminado' do |pt|
     attributes_table do
       row 'Cliente', :id do |t|
         t.client.name
@@ -86,13 +85,13 @@ ActiveAdmin.register MaterialCrudo do
         t.prod.descri unless t.prod.blank?
       end
       row 'Título' do
-        material_crudo.titulo
+        proyecto_terminado.titulo
       end 
       row 'Tipo', :id do |t|
         t.tipo.descri unless t.tipo.blank?
       end
       row 'Descripción' do 
-        material_crudo.descri
+        proyecto_terminado.descri
       end
       row 'Ciudad', :id do |t|
         t.ciudad.descri unless t.ciudad.blank?
@@ -101,29 +100,33 @@ ActiveAdmin.register MaterialCrudo do
         t.barrio.descri unless t.barrio.blank?
       end 
       row 'Desde' do
-        material_crudo.fecha_desde.strftime('%d/%m/%Y')
+        proyecto_terminado.fecha_desde.strftime('%d/%m/%Y')
       end   
       row 'Hasta' do
-        material_crudo.fecha_hasta.strftime('%d/%m/%Y') unless material_crudo.fecha_hasta.blank?
+        proyecto_terminado.fecha_hasta.strftime('%d/%m/%Y') unless proyecto_terminado.fecha_hasta.blank?
       end   
       row 'Discurso', :id do |t|
-        material_crudo.discurso unless material_crudo.discurso.blank?
-      end
-      row 'Equipo', :id do |t|
-        t.storage_info.equipo.descri unless t.storage_info.equipo.blank?
-      end
-      row 'Disco', :id do |t|
-        t.storage_info.disco.descri unless t.storage_info.disco.blank?
-      end
-      row 'Ruta', :id do |t|
-        t.storage_info.ruta.descri unless t.storage_info.ruta.blank?
+        proyecto_terminado.discurso unless proyecto_terminado.discurso.blank?
       end
       row 'Tag Temas' do 
-          mc.tagtemas.map(&:descri).join("<br />").html_safe
+          pt.tagtemas.map(&:descri).join("<br />").html_safe
       end  
       row 'Personas Relevantes' do 
-        mc.perreles.map(&:descri).join("<br />").html_safe
+        pt.perreles.map(&:descri).join("<br />").html_safe
       end   
+    end
+    panel "Información de almacenamiento" do
+      table_for pt.storage_infos do
+        column "Equipo" do |sf|
+          sf.equipo.descri unless sf.blank? || sf.equipo.blank?
+        end
+        column "Disco" do |sf|
+          sf.disco.descri unless sf.blank? || sf.disco.blank?
+        end
+        column "Ruta" do |sf|
+          sf.ruta.descri unless sf.blank? || sf.ruta.blank?
+        end
+      end
     end
   end  
 
