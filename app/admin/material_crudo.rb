@@ -32,11 +32,7 @@ ActiveAdmin.register MaterialCrudo do
   filter :prod_descri, :label => 'Producto', as: :string
     
   controller do
-    
-    #def edit
-    #  @page_title= 'Sandra'
-    #end
-    
+       
     def scoped_collection
      MaterialCrudo.includes(:client, :prod)
     end

@@ -8,15 +8,9 @@ ActiveAdmin.register Tagtemas do
   end
   
   action_item :only => :show do
-      link_to "Volver", admin_tagtemas_path
+      link_to "Volver", admin_tagtemas_index_path
   end
-    
- # sidebar 'Productos de este cliente', :only => :show do
- #     table_for Prod.joins(:client).where(:client_id=> Client.id) do |t|
- #         t.column("Descripción") { |prod| prod.descri }
- #   end
- # end  
-    
+     
   index :title => 'Tag Temas' do
     selectable_column
     column 'Descripción', :descri

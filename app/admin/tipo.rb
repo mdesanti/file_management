@@ -7,7 +7,7 @@ ActiveAdmin.register Tipo do
       params[:action]=='index' ? [] : []
   end
   
-   action_item :only => :show do
+  action_item :only => :show do
     link_to "Añadir", new_admin_tipo_path
   end
   action_item :only => :show do
