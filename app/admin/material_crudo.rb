@@ -30,6 +30,7 @@ ActiveAdmin.register MaterialCrudo do
     
   filter :client, :label => 'Razón Social', as: :select, collection: Client.order(:name)
   filter :prod_descri, :label => 'Producto', as: :string
+  filter :tagtemas, as: :select, collection: Tagtemas.all.map{|u| ["#{u.descri}", u.id]}, multiple: true, input_html: { class: 'chosen' }
     
   controller do
        

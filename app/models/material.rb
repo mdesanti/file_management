@@ -4,7 +4,7 @@ class Material < ActiveRecord::Base
   belongs_to :prod                                                                                                                                                          
   belongs_to :tipo                                                                                                                                                          
   belongs_to :ciudad                                                                                                                                                        
-  belongs_to :barrio 
+  belongs_to :barrio
   
   has_and_belongs_to_many :perreles, join_table: 'material_perrele'
   accepts_nested_attributes_for :perreles
