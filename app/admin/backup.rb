@@ -1,7 +1,7 @@
 ActiveAdmin.register Backup do
   permit_params :descri 
 
-  menu :parent => "Tablas",:label => "Backup"   
+  menu :parent => "Tablas",:label => "Backup" 
   config.sort_order = "descri_asc"
   breadcrumb do
       params[:action]=='index' ? [] : []

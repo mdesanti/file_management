@@ -4,6 +4,7 @@ ActiveAdmin.register ProyectoTerminado do
                 :ciudad_id, :barrio_id, :fecha_desde,
                 :fecha_hasta, :discurso, :tipo_id, perrele_ids: [], tagtemas_ids: [], storage_infos_attributes: [:equipo_id, :disco_id, :ruta_id]
   
+  menu :label => "Proyectos Terminados", priority: 3
   breadcrumb do
     params[:action]=='index' ? [] : []
   end
@@ -11,7 +12,10 @@ ActiveAdmin.register ProyectoTerminado do
   config.sort_order = "clients.name_asc"
   
   action_item :only => :show do
-    link_to "Volver", admin_material_crudos_path
+    link_to "Volver Proyecto Terminado", admin_material_crudos_path
+  end
+  action_item :only => :show do
+    link_to "Volver Materiales",  admin_materials_path
   end
     
   index :title => 'Material Crudo' do |mc|

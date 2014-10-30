@@ -5,6 +5,7 @@ ActiveAdmin.register MaterialCrudo do
                 :fecha_hasta, :discurso, :tipo_id, perrele_ids: [], tagtemas_ids: [], storage_info_attributes: [:equipo_id,
                 :disco_id, :ruta_id]
   
+  menu :label => "Materiales Crudos", priority: 2
   breadcrumb do
     params[:action]=='index' ? [] : []
   end
@@ -12,7 +13,10 @@ ActiveAdmin.register MaterialCrudo do
   config.sort_order = "clients.name_asc"
   
   action_item :only => :show do
-    link_to "Volver", admin_material_crudos_path
+    link_to "Volver Materiales Crudos", admin_material_crudos_path
+  end
+  action_item :only => :show do
+   link_to "Volver Materiales",  admin_materials_path
   end
     
   index :title => 'Material Crudo' do |mc|
